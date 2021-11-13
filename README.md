@@ -12,7 +12,7 @@ Tìm contract này trên PancakeSwap https://pancakeswap.finance/info/tokens
 
 ![](https://i.imgur.com/vCAkCGd.png)
 
-Mình sẽ lấy contract USDT/CAKE ở đây
+Mình sẽ lấy contract USDT/CAKE như bên dưới
 
 ![](https://i.imgur.com/N2i6vfT.png)
 
@@ -21,7 +21,7 @@ Contract: https://pancakeswap.finance/info/pool/0xf08046a9a44913536b6f563e33d403
 Mình sẽ tìm contract này trên BscScan sẽ tìm được function `getReserves`, function này trả về:
 - Reserve0: số lượng token 1 (trường hợp này là USDT)
 - Reserve1: số lượng token 2 (trường hợp này là BAKE)
-- 
+
 ![](https://i.imgur.com/bBkvst0.png)
 
 Vậy giá USDT/BAKE sẽ là Reserve1/Reserve0, giá BAKE/USDT là Reserve0/Reserve1
