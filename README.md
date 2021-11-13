@@ -21,6 +21,7 @@ Contract: https://pancakeswap.finance/info/pool/0xf08046a9a44913536b6f563e33d403
 Mình sẽ tìm contract này trên BscScan sẽ tìm được function `getReserves`, function này trả về:
 - Reserve0: số lượng token 1 (trường hợp này là USDT)
 - Reserve1: số lượng token 2 (trường hợp này là BAKE)
+- BlockTimestampLast
 
 ![](https://i.imgur.com/bBkvst0.png)
 
