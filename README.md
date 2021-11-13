@@ -29,5 +29,5 @@ Vậy giá USDT/BAKE sẽ là Reserve1/Reserve0, giá BAKE/USDT là Reserve0/Res
 
 ![](https://i.imgur.com/xyj2hBD.png)
 
-- CAKE/USDT: 2.098389
-- USDT/CAKE: 0.476556
+- BAKE/USDT: 2.098389
+- USDT/BAKE: 0.476556
