@@ -25,6 +25,6 @@ func Monitor(ctx context.Context, m PubSubMessage) error {
 
 	price01, price10 := abis.GetReservesPrice(contract, rClient)
 	log.Println(price01, price10)
-	g
+
 	return nil
 }
