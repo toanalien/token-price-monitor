@@ -4,6 +4,7 @@ import (
 	"github.com/ethereum/go-ethereum/accounts/abi"
 	"github.com/ethereum/go-ethereum/accounts/abi/bind"
 	"github.com/ethereum/go-ethereum/common"
+	"github.com/thoas/go-funk"
 	"log"
 	"math"
 	"math/big"
@@ -18,29 +19,23 @@ func GetReservesPrice(contract string, backend bind.ContractBackend) (*big.Float
 	token1 := methodToken("token1")
 	getReserves := methodGetReserves()
 
-	callToken0 := Struct0{}
-	callToken1 := Struct0{}
-	callReserves := Struct0{}
-	callReserves.Target = common.HexToAddress(contract)
-	callReserves.CallData = getReserves.ID
-	callToken0.Target = common.HexToAddress(contract)
-	callToken0.CallData = token0.ID
-	callToken1.Target = common.HexToAddress(contract)
-	callToken1.CallData = token1.ID
+	pairCallData := funk.Map([]abi.Method{token0, token1, getReserves}, func(method abi.Method) Struct0 {
+		return Struct0{
+			Target:   common.HexToAddress(contract),
+			CallData: method.ID}
+	}).([]Struct0)
 
-	tokens, _ := mtCall.Aggregate(&bind.CallOpts{}, []Struct0{callToken0, callToken1, callReserves})
+	tokens, _ := mtCall.Aggregate(&bind.CallOpts{}, pairCallData)
 	log.Println(tokens.ReturnData)
 
-	token0Address := tokens.ReturnData[0]
-	token1Address := tokens.ReturnData[1]
+	addresses := [][]byte{tokens.ReturnData[0], tokens.ReturnData[1]}
+	decimalsCallData := funk.Map(addresses, func(address []byte) Struct0 {
+		return Struct0{
+			Target:   common.BytesToAddress(address),
+			CallData: methodDecimals().ID}
+	}).([]Struct0)
 
-	callDecimals0 := Struct0{}
-	callDecimals1 := Struct0{}
-	callDecimals0.Target = common.BytesToAddress(token0Address)
-	callDecimals0.CallData = methodDecimals().ID
-	callDecimals1.Target = common.BytesToAddress(token1Address)
-	callDecimals1.CallData = methodDecimals().ID
-	decimals, _ := mtCall.Aggregate(&bind.CallOpts{}, []Struct0{callDecimals0, callDecimals1})
+	decimals, _ := mtCall.Aggregate(&bind.CallOpts{}, decimalsCallData)
 	log.Println(decimals)
 
 	uint256, _ := abi.NewType("uint256", "", nil)
